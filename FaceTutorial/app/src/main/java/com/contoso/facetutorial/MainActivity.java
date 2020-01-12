@@ -12,12 +12,6 @@ import android.graphics.*;
 import android.widget.*;
 import android.provider.*;
 
-import com.microsoft.azure.cognitiveservices.vision.faceapi.*;
-import com.microsoft.azure.cognitiveservices.vision.faceapi.models.*;
-
-import java.util.*;
-import java.util.concurrent.TimeUnit;
-
 // </snippet_imports>
 
 // <snippet_face_imports>
@@ -38,16 +32,6 @@ public class MainActivity extends Activity {
     private final int PICK_IMAGE = 1;
     private ProgressDialog detectionProgressDialog;
     // </snippet_mainactivity_fields>
-
-    // For Detect Faces and Find Similar Faces examples
-    // This image should have a single face.
-    final String SINGLE_FACE_URL = "https://www.biography.com/.image/t_share/MTQ1MzAyNzYzOTgxNTE0NTEz/john-f-kennedy---mini-biography.jpg";
-    final String SINGLE_IMAGE_NAME =
-            SINGLE_FACE_URL.substring(SINGLE_FACE_URL.lastIndexOf('/')+1, SINGLE_FACE_URL.length());
-    // This image should have several faces. At least one should be similar to the face in singleFaceImage.
-    final String  GROUP_FACES_URL = "http://www.historyplace.com/kennedy/president-family-portrait-closeup.jpg";
-    final String GROUP_IMAGE_NAME =
-            GROUP_FACES_URL.substring(GROUP_FACES_URL.lastIndexOf('/')+1, GROUP_FACES_URL.length());
 
     // <snippet_mainactivity_methods>
     @Override
@@ -197,34 +181,5 @@ public class MainActivity extends Activity {
             return bitmap;
     }
     // </snippet_drawrectangles>
-
-    /**
-     * Find Similar
-     * Finds a similar face in another image with 2 lists of face IDs.
-     * Returns the IDs of those that are similar.
-     */
-    public static List<UUID> findSimilar(FaceAPI client, List<UUID> singleFaceList, List<UUID> groupFacesList, String groupImageName) {
-        // With our list of the single-faced image ID and the list of group IDs, check if any similar faces.
-        List<SimilarFace> listSimilars = client.faces().findSimilar(singleFaceList.get(0),
-                new FindSimilarOptionalParameter().withFaceIds(groupFacesList));
-        // Display the similar faces found
-        System.out.println();
-        System.out.println("Similar faces found in group photo " + groupImageName + " are:");
-        // Create a list of UUIDs to hold the similar faces found
-        List<UUID> similarUuids = new ArrayList<>();
-        for (SimilarFace face : listSimilars) {
-            similarUuids.add(face.faceId());
-            System.out.println("Face ID: " + face.faceId());
-            // Get and print the level of certainty that there is a match
-            // Confidence range is 0.0 to 1.0. Closer to 1.0 is more confident
-            System.out.println("Confidence: " + face.confidence());
-        }
-        System.out.println();
-
-        return similarUuids;
-    }
-    /**
-     * END - Find Similar
-     */
 
 }
