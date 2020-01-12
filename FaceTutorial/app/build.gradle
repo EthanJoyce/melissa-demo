@@ -26,7 +26,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar'], dir: 'lib')
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     implementation 'com.microsoft.projectoxford:face:1.4.3'
     implementation files('ms-azure-cs-faceapi.jar')
